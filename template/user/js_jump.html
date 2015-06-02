@@ -1,0 +1,17 @@
+<script>
+    // 页面跳转
+    $("#page").change(function(){
+        var page = $(this).val();
+		
+		//定义开始 结束 日期
+		var sdate = $("#sdate").val();
+		var edate = $("#edate").val();
+        var platform = $("#platform").val()
+
+        var link = '/user?page=' + page;
+        var orderby = $('input[name=orderby]:checked').val();
+        var link = '/user?platform=' + platform + '&orderby=' + orderby +'&page=' + page + '&sdate=' + sdate + '&edate=' + edate;
+        //alter(sdate);
+        location.href = link;
+    });
+</script>

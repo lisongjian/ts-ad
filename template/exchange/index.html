@@ -1,0 +1,56 @@
+{% extends "../base.html" %}
+
+{% block page_title %}{{ title }}{% end %}
+
+{% block content %}
+<!-- 数据表格 -->
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <h3 class="box-title">兑换订单总数：{{ orders['total_count'] }}单</h3>
+                <div class="box-tools">
+                    <div class="btn-toolbar no-margin pull-right">
+                        <div class="btn-group">
+                            <a href="/exchange?status=10" class="btn btn-{% if status == 10 %}success{% else %}default{% end %}">等待审核</a>
+                            <a href="/exchange?status=11" class="btn btn-{% if status == 11 %}success{% else %}default{% end %}">审核通过</a>
+                            <a href="/exchange?status=12" class="btn btn-{% if status == 12 %}success{% else %}default{% end %}">审核拒绝</a>
+                            <a href="/exchange?status=13" class="btn btn-{% if status == 13 %}success{% else %}default{% end %}">兑换成功</a>
+                            <a href="/exchange?status=14" class="btn btn-{% if status == 14 %}success{% else %}default{% end %}">兑换失败</a>
+                        </div>
+                        <div class="btn-group">
+                            <a href="#" class="btn btn-warning" id="search">
+                                <i class="glyphicon glyphicon-search"></i> 搜索
+                            </a>&nbsp;
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="box-body">
+            {% include "body.html" %}
+            </div>
+            <div class="box-footer">
+                跳转到：第&nbsp<select name="page" id="page">
+                {% for i in range(orders['total_page']+1)[1:] %}
+                <option value={{ i }} {% if orders['cur_page'] == i %}selected="selected"{% end %}>{{ i }}</option>
+                {% end %}
+                </select>&nbsp页
+            </div>
+        </div>
+    </div>
+</div>
+{% include "modal.html" %}
+{% end %}
+
+{% block javascript %}
+<script>
+    // 页面跳转
+    $("#page").change(function(){
+        var page = $(this).val();
+        var link = '/exchange?page=' + page;
+        location.href = link;
+    });
+</script>
+{% include "js_search.html" %}
+{% include "js_audit.html" %}
+{% end %}

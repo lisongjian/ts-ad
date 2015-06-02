@@ -1,0 +1,85 @@
+<script>
+    // 刷新页面
+    $("#btn-refresh").click(function(){
+        location.reload();
+    });
+
+    // 全选通过
+    $("#btn-all").click(function(){
+        $("table input[type='radio']").each(function(){
+            $(this).closest(".iradio_minimal").removeClass("checked");
+        });
+        $("input[type='radio'][class='accept']").each(function(){
+            $(this).closest(".iradio_minimal").addClass("checked");
+        });
+    });
+    // 全选拒绝 
+    $("#btn-allnot").click(function(){
+        $("table input[type='radio']").each(function(){
+            $(this).closest(".iradio_minimal").removeClass("checked");
+        });
+        $("input[type='radio'][class='reject']").each(function(){
+            $(this).closest(".iradio_minimal").addClass("checked");
+        });
+    });
+
+    // 兑换允许
+    $("#btn-submit").click(function(){
+        var checked = 0;
+        $("table input[type='radio']").each(function(){
+            if($(this).closest(".iradio_minimal").hasClass("checked")){
+                checked = 1;
+            }
+        });
+        if( checked ){
+            $("#modal").modal('show');
+        }else{
+            alert("请先选择!");
+        }
+    });
+
+    $("#convert_accept").click(function() {
+        var accept = '';
+        var reject = '';
+        $("input[type='radio'][class='accept']").each(function(){
+            if($(this).closest(".iradio_minimal").hasClass("checked")){
+                accept += $(this).data('id') + ',' ;
+            }
+        });
+        $("input[type='radio'][class='reject']:checked").each(function(){
+            if($(this).closest(".iradio_minimal").hasClass("checked")){
+                reject += $(this).data('id') + ',' ;
+            }
+        });
+        $.ajax({
+            url:"/exchange/audit",
+            async: false,
+            type: "POST",
+            data: {
+                accept: accept,
+                reject: reject
+            },
+            dataType: "json",
+            error: function(){
+                alert('系统繁忙');
+            },
+            success: function(data) {
+                var id;
+                for(var i=0; i<data.length; i++){
+                    id = data[i].id;
+                    status = data[i].status;
+                    if(status==11){
+                        var span = '<span class="label label-info">正在兑换</span>';
+                    }else if(status==12){
+                        var span = '<span class="label label-danger">拒绝兑换</span>';
+                    }else{
+                        var span = '<span class="label label-danger">操作失败</span>';
+                    }
+                    $("#status-"+ id).html(span);
+                }
+                $("#modal").modal('hide');
+            }
+        });
+        return false;
+    });
+</script>

@@ -1,0 +1,54 @@
+{% extends "../base.html" %}
+
+{% block page_title %}{{ title }}{% end %}
+
+{% block content %}
+<!-- 数据表格 -->
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <h3 class="box-title">兑换订单搜索结果：{{ orders['total_count'] }}单</h3>
+                <div class="box-tools">
+                    <ul class="no-margin pull-right">
+                        <a href="#" class="btn btn-warning" id="search">
+                            <i class="glyphicon glyphicon-search"></i> 搜索
+                        <a href="/exchange/search?{% for k in params %}{{ k }}={{ params[k] }}&{% end %}export=1" class="btn btn-success" id="export">
+                            <i class="glyphicon glyphicon-export"></i> 导出结果
+                        </a>&nbsp;
+                    </ul>
+                </div>
+            </div>
+            <div class="box-body">
+            {% include "body.html" %}
+            </div>
+            <div class="box-footer">
+                跳转到：第&nbsp<select name="page" id="page">
+                {% for i in range(orders['total_page']+1)[1:] %}
+                <option value={{ i }} {% if orders['cur_page'] == i %}selected="selected"{% end %}>{{ i }}</option>
+                {% end %}
+                </select>&nbsp页
+            </div>
+        </div>
+    </div>
+</div>
+{% include "modal.html" %}
+{% end %}
+
+{% block javascript %}
+<script>
+    // 页面跳转
+    $("#page").change(function(){
+        var page = $(this).val();
+        var link = '/exchange/search?{% for k in params %}{{ k }}={{ params[k] }}&{% end %}page=' + page;
+        location.href = link;
+    });
+    $("#export").change(function(){
+        var link = '/exchange/search?{% for k in params %}{{ k }}={{ params[k] }}&{% end %}export=1';
+        location.href = link;
+    });
+
+</script>
+{% include "js_search.html" %}
+{% include "js_audit.html" %}
+{% end %}

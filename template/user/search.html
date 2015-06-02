@@ -1,0 +1,44 @@
+{% extends "../base.html" %}
+
+{% block page_title %}{{ title }}{% end %}
+
+{% block content %}
+<!-- 数据表格 -->
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <div class="box-tools">
+                    <ul class="no-margin pull-right">
+                        <a href="#" class="btn btn-warning" id="search">
+                            <i class="glyphicon glyphicon-search"></i> 搜索
+                        </a>&nbsp;
+                    </ul>
+                </div>
+            </div>
+            <div class="box-body">
+            {% include "body.html" %}
+            </div>
+            <div class="box-footer">
+                跳转到：第&nbsp<select name="page" id="page" onchange="changePage(this)">
+                {% for i in range(users['total_page']+1)[1:] %}
+                <option value={{ i }} {% if users['cur_page'] == i %}selected="selected"{% end %}>{{ i }}</option>
+                {% end %}
+                </select>&nbsp页
+            </div>
+<script>
+function changePage(obj){
+    var page = obj.value;
+    var link = "/user/search?tid={{field['tid']}}&phone={{field['phone']}}&username={{field['username']}}&uid={{field['uid']}}&ifa={{field['ifa']}}&un={{field['un']}}&pkg={{field['pkg']}}&sdate={{field['sdate']}}&edate={{field['edate']}}&page="+page;
+    location.href = link;
+}
+</script>
+
+        </div>
+    </div>
+</div>
+{% include "modal_search.html" %}
+{% end %}
+{% block javascript %}
+{% include "js_search.html" %}
+{% end %}

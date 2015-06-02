@@ -1,0 +1,39 @@
+<script>
+    //排序
+    $("#orderby").click(function(){
+        $("#modal_orderby").modal('show');
+    });
+     var url = location.search,  // 获取url中"?"后面的字符串
+         i = 0,
+         args, arg,
+         back = new Object();
+
+        if (url.indexOf('?') != -1) {
+            args = url.substr(1).split('&');
+
+            for (; i < args.length; i++) {
+                arg = args[i].split('=');
+                back[arg[0]] = arg[1];
+            }
+            switch (back['orderby']) {
+                case 'points': 
+                    $('#ob-points').prop('checked', true);
+                    break;
+                case 'ex_points': 
+                    $('#ob-ex_points').prop('checked', true);
+                    break;
+                case 'tt_points': 
+                    $('#ob-total_points').prop('checked', true);
+                    break;
+                case 'total_sons': 
+                    $('#total_sons').prop('checked', true);
+                    break;
+                case 'sons': 
+                    $('#sons').prop('checked', true);
+                    break;
+                case 'grandsons': 
+                    $('#grandsons').prop('checked', true);
+                    break;
+            }
+        }
+</script>

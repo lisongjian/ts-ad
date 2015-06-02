@@ -1,0 +1,57 @@
+<html>
+<head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+</head>
+<body>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>UID</th>
+        <th>订单号</th>
+        <th>兑吧订单号</th>
+        <th>积分</th>
+        <th>积分价格</th>
+        <th>实际价格</th>
+        <th>描述</th>
+        <th>兑换地址</th>
+        <th>兑换类型</th>
+        <th>提现IP</th>
+        <th>IP归属地</th>
+        <th>订单状态</th>
+        <th>备注</th>
+        <th>兑换时间</th>
+    </tr>
+{% for d in data %}
+    <tr>
+        <td>{{ d.id }}</td>
+        <td>{{ d.uid }}</td>
+        <td>{{ d.oid }}</td>
+        <td>{{ d.order_num }}</td>
+        <td>{{ d.points }}</td>
+        <td>{{ d.face_price }}</td>
+        <td>{{ d.actual_price }}</td>
+        <td>{{ d.description }}</td>
+        <td>{{ d.address }}</td>
+        <td>{{ d.extype }}</td>
+        <td>{{ d.ip }}</td>
+        <td>{{ d.ip_address }}</td>
+        <td>
+        {% if d.status == 10 %}
+            等待审核
+        {% elif d.status == 11 %}
+            审核通过
+        {% elif d.status == 12 %}
+            审核失败
+        {% elif d.status == 13 %}
+            兑换成功
+        {% elif d.status == 14 %}
+            兑换失败
+        {% end %}
+        </td>
+        <td>{{ d.notes }}</td>
+        <td>{{ d.create_time }}</td>
+    </tr>
+{% end %}
+</table>
+</body>
+</html>

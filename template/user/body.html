@@ -1,0 +1,89 @@
+                <table class="table table-striped table-bordered text-center">
+                    <thead>
+                        <tr>
+                            <th>UID</th>
+                            <th>ID</th>
+                            <th>昵称</th>
+                            <th>手机号码</th>
+                            <th>当前积分</th>
+                            <th>邀请积分</th>
+                            <th>兑换积分</th>
+                            <th>总积分</th>
+                            <th>徒弟</th>
+                            <th>徒孙</th>
+                            <th>性别</th>
+                            <th>平台</th>
+                            <th>等级</th>
+                            <th>VIP</th>
+                            <th>状态</th>
+                            <th>IP</th>
+                            <th>IP归属地</th>
+                            <th>渠道</th>
+                            <th>注册时间</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in users['data'] %}
+                        <tr>
+                            <td><a href="/user/detail?uid={{ item['uid'] }}">{{ item['uid'] }}</a></td>
+                            <td>{{ item['tid'] }}</td>
+                            <td>{% if item['username'] %}{{ item['username'] }}{% end %}</td>
+                            <td>{% if item['phone'] %}{{ item['phone'] }}{% end %}</td>
+                            <td>{{ item['points'] }}</td>
+                            <td>{{ item['iv_points'] }}</td>
+                            <td>{{ item['ex_points'] }}</td>
+                            <td>{{ item['tt_points'] }}</td>
+                            <td>{{ item['sons'] }}</td>
+                            <td>{{ item['grandsons'] }}</td>
+                            <td>
+                            {% if item['sex'] == 1 %}
+                                <span class="label label-success">男</span>
+                            {% elif item['sex'] == 2 %}
+                                <span class="label label-danger">女</span>
+                            {% else %}
+                                <span class="label label-warning">？</span>
+                            {% end %}
+                            </td>
+                            <td>
+                            {% if item['platform'] == 1 %}
+                                <span class="label label-success">Android</span>
+                            {% elif item['platform'] == 2 %}
+                                <span class="label label-danger">iOS</span>
+                            {% else %}
+                                <span class="label label-warning">？</span>
+                            {% end %}
+                        </td>
+                        <td>LV {{item['grade']}}</td>
+                        <td>
+                            {%if item['vip'] == 1 %}
+                            <span class="label label-success">是</span>
+                            {% else %}
+                            <span class="label label-danger">否</span>
+                            {%end%}
+                        </td>
+                            
+                            <td>
+                            {% if item['status'] == 0 %}
+                                <span class="label label-success">正常</span>
+                            {% elif item['status'] == -1 %}
+                                <span class="label label-danger">封杀</span>
+                            {% elif item['status'] == -2 %}
+                                <span class="label label-warning">封杀</span>
+                            {% end %}
+                            </td>
+                            <td>{{ item['ip'] }}</td>
+                            <td>{{ item['ip_address'] }}</td>
+                            {% if item['pkg'] == 0 %}
+                            <td><span class="label label-warning">默认</span></td>
+                            {% elif item['pkg'] == 1 %}
+                            <td><span class="label label-danger">微博</span></td>
+                            {% elif item['pkg'] == 2 %}
+                            <td><span class="label label-success">有米</span></td>
+                            {%else%}
+                            <td><span>未知</span></td>
+                            {% end %}
+                            <td>{{ item['create_time'] }}</td>
+                        </tr>
+                        {% end %}
+                    </tbody>
+                </table>
